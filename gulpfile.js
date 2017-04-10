@@ -48,7 +48,8 @@ gulp.task('sprite', function() {
   var spriteData = gulp.src('src/images/sprite/*.png').pipe(spritesmith({
             imgName: 'sprite.png',
             cssName: '1_sprite.css',
-            cssFormat: 'css'
+            cssFormat: 'css',
+            imgPath: '../images/sprite.png'
         }));
     spriteData.img.pipe(gulp.dest('src/images')); // output path for the sprite
     spriteData.css.pipe(gulp.dest('src/css/css')); // output path for the CSS
