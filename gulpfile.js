@@ -71,11 +71,12 @@ gulp.task('csstodist',  ['testCSS', 'testLess', 'testSass', 'sprite'], function(
     var processors = [autoprefixer, cssnext, precss];
     var stream = gulp.src('src/css/css/*.css')
             .pipe(cached('csstodist'))
+            .pipe(plumber( {errorHandler: notify.onError('Error: <%= error.message %>')}))
             .pipe(postcss(processors))
             .pipe(remember('csstodist'))
             .pipe(debug({title: '编译文件————:'}))
             .pipe(concat('common.css'))
-            .pipe(rename({suffix: '.min'}))
+            // .pipe(rename({suffix: '.min'}))
             // .pipe(minifycss())
             .pipe(gulp.dest('dist/css'))
             .pipe(reload({ stream: true }));
@@ -87,6 +88,7 @@ gulp.task('testCSS', function (callback) {
     gulp.src('src/css/*.css')
         // .pipe(cached('testLess'))
         .pipe(changed('src/css/css'))
+        .pipe(plumber( {errorHandler: notify.onError('Error: <%= error.message %>')}))
         .pipe(gulp.dest('src/css/css'));
         callback();
         // .pipe(reload({ stream: true }));
@@ -147,7 +149,7 @@ gulp.task('jstodist', function() {
 // 监视文件改动并重新载入
 gulp.task('serve', function() {
     browserSync({
-            port: 8080,
+            port: 406,
             server: {
                 baseDir: 'dist/'
         }
