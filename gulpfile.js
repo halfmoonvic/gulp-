@@ -53,7 +53,7 @@ gulp.task('sprite', function() {
         imgPath: '../images/sprite.png'
     }));
     spriteData.img.pipe(gulp.dest('src/images')); // output path for the sprite
-    spriteData.css.pipe(gulp.dest('src/css/css')); // output path for the CSS
+    spriteData.css.pipe(gulp.dest('src/css/temp_css/')); // output path for the CSS
 });
 
 // 压缩图片
@@ -67,10 +67,10 @@ gulp.task('imagemin', ['sprite'], function() {
     return stream;
 });
 
-// 打包CSS进入到dist目录
+// 打包 temp_css 进入到 dist 目录
 gulp.task('csstodist', ['testCSS', 'testLess', 'testSass', 'sprite'], function() {
     var processors = [autoprefixer, cssnext, precss];
-    var stream = gulp.src('src/css/css/*.css')
+    var stream = gulp.src('src/css/temp_css/*.css')
         .pipe(cached('csstodist'))
         .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
         .pipe(postcss(processors))
@@ -89,38 +89,38 @@ gulp.task('csstodist', ['testCSS', 'testLess', 'testSass', 'sprite'], function()
     return stream;
 });
 
-// css 打包进入 src 文件夹
+// css 打包进入 temp_css 文件夹
 gulp.task('testCSS', function(callback) {
     gulp.src('src/css/*.css')
         // .pipe(cached('testLess'))
         .pipe(changed('src/css/css'))
         .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
-        // .pipe(gulp.dest('src/css/css'))
-        .pipe(reload({ stream: true }));
-    callback();
-});
-
-// less 翻译 并 打包进入 src 文件
-gulp.task('testLess', function(callback) {
-    gulp.src('src/css/*.less')
-        // .pipe(cached('testLess'))
-        .pipe(changed('src/css/css', { extension: '.css' }))
-        .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
-        .pipe(less())
-        .pipe(gulp.dest('src/css/css'));
+        .pipe(gulp.dest('src/css/temp_css/'));
         // .pipe(reload({ stream: true }));
     callback();
 });
 
-// sass 翻译 并 打包进入 src 文件
+// less 翻译 并 打包进入 temp_css 文件
+gulp.task('testLess', function(callback) {
+    gulp.src('src/css/*.less')
+        // .pipe(cached('testLess'))
+        .pipe(changed('src/css/temp_css/', { extension: '.css' }))
+        .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
+        .pipe(less())
+        .pipe(gulp.dest('src/css/temp_css/'));
+        // .pipe(reload({ stream: true }));
+    callback();
+});
+
+// sass 翻译 并 打包进入 temp_css 文件
 gulp.task('testSass', function(callback) {
     gulp.src('src/css/*.scss')
-        .pipe(changed('src/css/css', { extension: '.css' }))
+        .pipe(changed('src/css/temp_css/', { extension: '.css' }))
         .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
         // .pipe(sass().on('error', sass.logError))
         .pipe(sass())
         .pipe(debug({ title: '编译文件————:' }))
-        .pipe(gulp.dest('src/css/css'));
+        .pipe(gulp.dest('src/css/temp_css/'));
         // .pipe(reload({ stream: true }));
     callback();
 });
@@ -169,7 +169,7 @@ gulp.task('watch', function() {
     gulp.watch(['src/css/*.css'], ['testCSS']);
     gulp.watch(['src/css/*.less'], ['testLess']);
     gulp.watch(['src/css/*.scss'], ['testSass']);
-    gulp.watch(['src/css/css/*.css'], ['csstodist']);
+    gulp.watch(['src/css/temp_css/*.css'], ['csstodist']);
     gulp.watch(['src/images/sprite/*'], ['sprite']);
     gulp.watch(['src/Lib/**/*'], ['Libtodist']);
     gulp.watch(['src/js/*.js'], ['jstodist']);
