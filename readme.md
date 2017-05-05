@@ -10,3 +10,16 @@ common.min.css 文件当中，无需再次引入
 1. gulp 中的文件监视 需要事先有此种类型的文件。所以在 css 文件夹中，若无此类型的文件，是无法监视的，也就造成第一次运行gulp任务时，文件未编译，未打包。可通过重启 gulp 任务方式解决
 2. 文件进行删除时，部分文件使用 gulp-cache 插件进行增量编译，导致 其内容仍残留在目标文件中。可通过重启 gulp 任务方式解决
 3. 删除文件过多，且已被编译到 dist 目录时，可通过整体删除 dist 目录，并重启 gulp 任务，以使 src 与 dist 两者完全同步
+
+### 三、使用方式
+1. 安装 [node.js](https://nodejs.org/en/)
+2. 全局安装 gulp: `npm install gulp -g` (淘宝镜像 cnpm: `npm install cnpm -g --registry=https://registry.npm.taobao.org`)
+3. 命令行输入 gulp -v，出现版本号即为正确安装
+4. 下载好配置文件后可直接在目录内执行 `cnpm install` 命令 即安装相应包
+
+### 四、npm 使用
+1. 亦可通过 `cnpm init` 在命令行内 初始化 `package.json` 文件
+2. `-dev`：保存至package.json 的 `devDependencies` 节点，不指定 `-dev` 将保存至 `dependencies` 节点
+3. `npm uninstall <name> [-g] [--save-dev]`  PS：不要直接删除本地插件包
+4. 使用npm更新插件：`npm update <name> [-g] [--save-dev]`
+5. 更新全部插件：`npm update [--save-dev]`
