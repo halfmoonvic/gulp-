@@ -28,3 +28,7 @@ common.css 文件当中，无需再次引入
 ### 五、新增 scss 版本
 css less scss —— 可使用 这三种语法编写 样式  
 scss —— 仅支持 scss 一种语法
+
+
+### 六、升级所有依赖包
+详见 `gulp-scss\` 文件夹
